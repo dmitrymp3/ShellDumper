@@ -1,0 +1,53 @@
+24-08-01 02:03:50 ############### End of the backup script ###############
+24-08-02 01:30:01 ############### This is backup script ###############
+24-08-02 01:30:01 Databases for backup:
+---------	ut11_db
+---------	buh
+---------	buh2_db
+---------	unf_db
+---------	zup
+---------	zup3
+24-08-02 01:30:01 Database ut11_db backup is starting
+24-08-02 01:39:53 Database ut11_db backup was completed
+24-08-02 01:39:53 File /var/lib/postgresql/backups/ut11_db-2024-08-02-DAILY.dump uploading is starting to s3://****************************
+24-08-02 01:42:19 Upload was completed
+24-08-02 01:42:19 File /var/lib/postgresql/backups/ut11_db-2024-08-02-DAILY.dump will be deleted
+24-08-02 01:42:20 File was deleted
+24-08-02 01:42:20 Database ut11_db backup and upload was completed
+24-08-02 01:42:20 Database buh backup is starting
+24-08-02 01:44:02 Database buh backup was completed
+24-08-02 01:44:02 File /var/lib/postgresql/backups/buh-2024-08-02-DAILY.dump uploading is starting to s3://****************************
+24-08-02 01:44:25 Upload was completed
+24-08-02 01:44:25 File /var/lib/postgresql/backups/buh-2024-08-02-DAILY.dump will be deleted
+24-08-02 01:44:25 File was deleted
+24-08-02 01:44:25 Database buh backup and upload was completed
+24-08-02 01:44:25 Database buh2_db backup is starting
+24-08-02 01:52:10 Database buh2_db backup was completed
+24-08-02 01:52:10 File /var/lib/postgresql/backups/buh2_db-2024-08-02-DAILY.dump uploading is starting to s3://****************************
+24-08-02 01:54:26 Upload was completed
+24-08-02 01:54:26 File /var/lib/postgresql/backups/buh2_db-2024-08-02-DAILY.dump will be deleted
+24-08-02 01:54:27 File was deleted
+24-08-02 01:54:27 Database buh2_db backup and upload was completed
+24-08-02 01:54:27 Database unf_db backup is starting
+24-08-02 01:56:07 Database unf_db backup was completed
+24-08-02 01:56:07 File /var/lib/postgresql/backups/unf_db-2024-08-02-DAILY.dump uploading is starting to s3://****************************
+24-08-02 01:56:39 Upload was completed
+24-08-02 01:56:39 File /var/lib/postgresql/backups/unf_db-2024-08-02-DAILY.dump will be deleted
+24-08-02 01:56:39 File was deleted
+24-08-02 01:56:39 Database unf_db backup and upload was completed
+24-08-02 01:56:39 Database zup backup is starting
+24-08-02 02:00:22 Database zup backup was completed
+24-08-02 02:00:22 File /var/lib/postgresql/backups/zup-2024-08-02-DAILY.dump uploading is starting to s3://****************************
+24-08-02 02:01:26 Upload was completed
+24-08-02 02:01:26 File /var/lib/postgresql/backups/zup-2024-08-02-DAILY.dump will be deleted
+24-08-02 02:01:26 File was deleted
+24-08-02 02:01:26 Database zup backup and upload was completed
+24-08-02 02:01:26 Database zup3 backup is starting
+24-08-02 02:03:36 Database zup3 backup was completed
+24-08-02 02:03:36 File /var/lib/postgresql/backups/zup3-2024-08-02-DAILY.dump uploading is starting to s3://****************************
+24-08-02 02:04:19 Upload was completed
+24-08-02 02:04:19 File /var/lib/postgresql/backups/zup3-2024-08-02-DAILY.dump will be deleted
+24-08-02 02:04:19 File was deleted
+24-08-02 02:04:19 Database zup3 backup and upload was completed
+ 
+24-08-02 02:04:19 ############### End of the backup script ###############

@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# This script restores the selected database
+
+# Check the list of backups
+
+s3cmd ls s3

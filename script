@@ -1,0 +1,328 @@
+#!/bin/bash
+
+# Paths and timing
+TODAY=`date --iso-8601`
+BACKDIR=/var/lib/postgresql/backups
+LOGFILE=/var/lib/postgresql/backups/logfile.txt
+S3=s3://***************************
+
+# Archive database for restoring
+archive_db="archive"
+
+# Сколько мы храним бэкапов каждого типа
+count_daily_backups=6
+count_weekly_backups=10
+count_monthly_backups=12
+
+# Array of databases which should be backup
+databases=(ut11_db buh2_db unf_db zup zup3)
+
+## Functions
+
+# Logging
+log(){
+   message="$(date +"%y-%m-%d %T") $@"
+   echo $message
+}
+
+# Naming of backups
+# Types of backups: Monthly, Weekly, Daily
+naming(){
+	# The day we do a weekly backup
+	weekly_day=1
+	# The day we do a monthly backup
+	monthly_day=1
+
+	day_of_week=$(date +%u)
+	day_of_month=$(date +%d)
+
+	if test "$day_of_month" = "$monthly_day"; then
+    	echo "-MONTHLY"
+	else
+    	if test "$day_of_week" = "$weekly_day"; then
+        	echo "-WEEKLY"
+    	else
+        	echo "-DAILY"
+    	fi
+	fi
+}
+
+# Check the keys
+while [ -n "$1" ]
+do
+case "$1" in
+-backup)
+
+###############
+# Initialization backup script
+###############
+
+log "############### This is backup script ###############"
+log "Databases for backup:"
+for ix in ${!databases[*]}
+do
+	echo "---------	${databases[$ix]}"
+done
+
+# Backup processing
+for ix in ${!databases[*]}
+do
+	log "Database ${databases[$ix]} backup is starting"
+
+	# Here we form the name of the backup
+	name_of_backup="${databases[$ix]}-$TODAY"$(naming).dump	
+
+	if pg_dump ${databases[$ix]} -Fc > $BACKDIR/$name_of_backup;
+	then
+		log "   Database ${databases[$ix]} backup was completed"
+		log "   File $BACKDIR/$name_of_backup uploading is starting to $S3"
+        		if s3cmd --quiet put $BACKDIR/$name_of_backup $S3;
+        		then
+                		log "   Upload was completed"
+				log "   File $BACKDIR/$name_of_backup will be deleted"
+				if rm $BACKDIR/$name_of_backup; 
+				then
+					log "   File was deleted"
+					log "Database ${databases[$ix]} backup and upload was completed"
+				else 
+					log "   File was not deleted"
+				fi
+        		else
+                		log "   Upload was not completed"
+        		fi
+	else
+		log "   Database ${database[$ix]} backup was not completed\n"
+	fi
+done
+
+echo " "
+log "############### End of the backup script ###############"
+
+;;
+###############
+# End of backup script
+###############
+
+###############
+# Start of restoring script
+###############
+-restore)
+log "############### This is restore script ###############"
+#s3cmd ls $S3
+
+number_of_backups=$(s3cmd ls $S3 | grep -c .dump)
+
+log "Number of .dump-backups: $number_of_backups"
+
+readarray -t list_of_backups < <(s3cmd ls $S3| grep .dump | awk '{print $4}')
+
+# List of backups to select from
+for ix in ${!list_of_backups[*]}
+do
+	echo "$[ix]: ${list_of_backups[$ix]}"
+done
+
+# Waiting for response
+read -p "Select number of backup: " answer
+
+
+if ! ${list_of_backups[$answer]};
+then
+	#echo "${list_of_backups[$answer]} exist"
+
+	# Are you sure?
+	read -p "Your backup is ${list_of_backups[$answer]}.Are you ready to restore it to archive database? (y/n) : " answer1
+	case "$answer1" in
+		y)
+		echo "Your backup is downloading from s3 bucket"
+		if s3cmd get ${list_of_backups[$answer1]} $BACKDIR/database_for_restore.dump;
+		then
+			echo "You backup has been downloaded"
+			echo "Next command will be executed: 
+			pg_restore -c -d $archive_db /var/lib/postgresql/backups/database_for_restore.dump"
+			#pg_restore -c -d $archive_db /var/lib/postgresql/backups/database_for_restore.dump 
+			echo "Run database restore by pg_restore"
+			
+		else
+			echo "Backup wasn't downloaded"
+		fi
+		;;
+		n)
+		echo "Script exit";;
+		*)
+		echo "wrong parameter $answer";;
+	esac
+else
+	echo "empty"
+fi
+
+;;
+###############
+# End of restoring script
+###############
+
+###############
+# Start of cleaning script
+###############
+-clean)
+log "############### This is cleaning-script ###############"
+
+# Full number of .dump backups
+number_of_backups=$(s3cmd ls $S3 | grep -c .dump)
+
+# Array of files with .dump extension
+backups_list=($(s3cmd ls $S3 | grep .dump | awk '{print $4}'))
+
+echo "We have $number_of_backups backups"
+echo "List of these backups:"
+
+# Array of databases which exist in the bucket
+databases_in_bucket=()
+
+for ix in ${!backups_list[*]}
+do
+	new_name=${backups_list[$ix]}
+	new_name=$(echo $new_name | awk -F/ '{print $NF}')
+	echo "-- $new_name"
+	type=$(echo $new_name | awk -F- '{print $1}')
+	
+	# Check the type in the list
+	if ! [[ " ${databases_in_bucket[@]} " =~ $type ]]; then
+  		databases_in_bucket+=("$type")
+	fi
+done
+
+# Listing of databases in bucket
+echo "################################"
+echo "Databases in the bucket:"
+for ix in ${!databases_in_bucket[*]}
+do
+	database_type=${databases_in_bucket[ix]}
+	echo "----- Database: $database_type"
+	#echo "----- List of backups this database:"
+	
+	for ix in ${!backups_list[*]}
+	do
+		# Counting backups
+		db_type="$database_type-"
+
+		new_name=${backups_list[$ix]}
+		new_name=$(echo $new_name | awk -F/ '{print $NF}')
+		new_name_daily=$(echo $new_name | grep -E "$db_type.*-DAILY")
+		new_name_weekly=$(echo $new_name | grep -E "$db_type.*-WEEKLY")
+		new_name_monthly=$(echo $new_name | grep -E "$db_type.*-MONTHLY")
+
+		# Daily
+		if [[ -n $new_name_daily ]]; then
+			echo "   $new_name_daily"
+			list_of_databases_by_type_daily+=($new_name_daily)
+		fi
+
+		# Weekly
+		if [[ -n $new_name_weekly ]]; then
+			echo "   $new_name_weekly"
+			list_of_databases_by_type_weekly+=($new_name_weekly)
+		fi
+
+		# Weekly
+		if [[ -n $new_name_monthly ]]; then
+			echo "   $new_name_monthly"
+			list_of_databases_by_type_monthly+=($new_name_monthly)
+		fi
+	done
+
+	echo "Количество ежедневных бэкапов базы данных $database_type = ${#list_of_databases_by_type_daily[*]}"
+	# Теперь удаляем 
+
+	# Если количество регулярных бэкапов превышает то, что мы задали в настройках, удаляем лишние бэкапы
+	if ((${#list_of_databases_by_type_daily[*]} > $count_daily_backups)); then
+		echo "Удаляем лишние ежедневные бэкапы для базы данных $database_type"
+
+		backup_for_delete=(${list_of_databases_by_type_daily[@]:0:$((${#list_of_databases_by_type_daily[*]}-$count_daily_backups))})
+
+		# Перебираем каждое название бэкапа под удаление и удаляем его в бакете
+		for ix in ${!backup_for_delete[*]}
+		do
+			name_of_backup_in_bucket=$S3/${backup_for_delete[$ix]}
+			log "Delete backup $name_of_backup_in_bucket..."
+			if s3cmd del $name_of_backup_in_bucket; then
+				log "Backup ${backup_for_delete[$ix]} was deleted"
+			else
+				log "Something went wrong"
+			fi
+		done
+
+		backup_for_delete=()
+	fi
+
+	echo "Количество еженедельных бэкапов базы данных $database_type = ${#list_of_databases_by_type_weekly[*]}"
+	# Если количество регулярных бэкапов превышает то, что мы задали в настройках, удаляем лишние бэкапы
+	if ((${#list_of_databases_by_type_weekly[*]} > $count_weekly_backups)); then
+		echo "Удаляем лишние ежедневные бэкапы для базы данных $database_type"
+
+		backup_for_delete=(${list_of_databases_by_type_weekly[@]:0:$((${#list_of_databases_by_type_weekly[*]}-$count_weekly_backups))})
+
+		# Перебираем каждое название бэкапа под удаление и удаляем его в бакете
+		for ix in ${!backup_for_delete[*]}
+		do
+			name_of_backup_in_bucket=$S3/${backup_for_delete[$ix]}
+			log "Delete backup $name_of_backup_in_bucket..."
+			if s3cmd del $name_of_backup_in_bucket; then
+				log "Backup ${backup_for_delete[$ix]} was deleted"
+			else
+				log "Something went wrong"
+			fi
+		done
+
+		backup_for_delete=()
+	fi
+
+	
+	echo "Количество ежемесячных бэкапов базы данных $database_type = ${#list_of_databases_by_type_monthly[*]}"
+	# Если количество регулярных бэкапов превышает то, что мы задали в настройках, удаляем лишние бэкапы
+	if ((${#list_of_databases_by_type_monthly[*]} > $count_monthly_backups)); then
+		echo "Удаляем лишние ежедневные бэкапы для базы данных $database_type"
+
+		backup_for_delete=(${list_of_databases_by_type_monthly[@]:0:$((${#list_of_databases_by_type_monthly[*]}-$count_monthly_backups))})
+
+		# Перебираем каждое название бэкапа под удаление и удаляем его в бакете
+		for ix in ${!backup_for_delete[*]}
+		do
+			name_of_backup_in_bucket=$S3/${backup_for_delete[$ix]}
+			log "Delete backup $name_of_backup_in_bucket..."
+			if s3cmd del $name_of_backup_in_bucket; then
+				log "Backup ${backup_for_delete[$ix]} was deleted"
+			else
+				log "Something went wrong"
+			fi
+		done
+
+		backup_for_delete=()
+	fi
+	
+
+
+	# Cleaning massives with regular backups
+	list_of_databases_by_type_daily=()
+	list_of_databases_by_type_weekly=()
+	list_of_databases_by_type_monthly=()
+
+
+done
+
+
+;;
+###############
+# End of cleaning script
+###############
+
+# Incorrect parameters handling start
+*)
+echo "This is bad parameter: $1"
+;;
+# Incorrect parameters handling end
+
+esac
+shift
+done
+

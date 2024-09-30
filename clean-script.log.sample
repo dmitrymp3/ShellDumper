@@ -1,0 +1,194 @@
+################################
+Databases in the bucket:
+----- Database: ut11_db
+   ut11_db-2023-06-01-MONTHLY.dump
+   ut11_db-2023-07-01-MONTHLY.dump
+   ut11_db-2023-08-01-MONTHLY.dump
+   ut11_db-2023-09-01-MONTHLY.dump
+   ut11_db-2023-10-01-MONTHLY.dump
+   ut11_db-2023-11-01-MONTHLY.dump
+   ut11_db-2023-12-01-MONTHLY.dump
+   ut11_db-2024-05-27-WEEKLY.dump
+   ut11_db-2024-06-03-WEEKLY.dump
+   ut11_db-2024-06-10-WEEKLY.dump
+   ut11_db-2024-06-17-WEEKLY.dump
+   ut11_db-2024-06-24-WEEKLY.dump
+   ut11_db-2024-07-01-WEEKLY.dump
+   ut11_db-2024-07-08-WEEKLY.dump
+   ut11_db-2024-07-15-WEEKLY.dump
+   ut11_db-2024-07-22-WEEKLY.dump
+   ut11_db-2024-07-25-DAILY.dump
+   ut11_db-2024-07-26-DAILY.dump
+   ut11_db-2024-07-27-DAILY.dump
+   ut11_db-2024-07-28-DAILY.dump
+   ut11_db-2024-07-29-WEEKLY.dump
+   ut11_db-2024-07-30-DAILY.dump
+   ut11_db-2024-07-31-DAILY.dump
+   ut11_db-2024-08-01-DAILY.dump
+Количество ежедневных бэкапов базы данных ut11_db = 7
+Удаляем лишние ежедневные бэкапы для базы данных ut11_db
+24-08-01 23:30:03 Delete backup s3://****************************/ut11_db-2024-07-25-DAILY.dump...
+delete: 's3://****************************/ut11_db-2024-07-25-DAILY.dump'
+24-08-01 23:30:07 Backup ut11_db-2024-07-25-DAILY.dump was deleted
+Количество еженедельных бэкапов базы данных ut11_db = 10
+Количество ежемесячных бэкапов базы данных ut11_db = 7
+----- Database: buh
+   buh-2023-06-01-MONTHLY.dump
+   buh-2023-07-01-MONTHLY.dump
+   buh-2023-08-01-MONTHLY.dump
+   buh-2023-09-01-MONTHLY.dump
+   buh-2023-10-01-MONTHLY.dump
+   buh-2023-11-01-MONTHLY.dump
+   buh-2023-12-01-MONTHLY.dump
+   buh-2024-05-27-WEEKLY.dump
+   buh-2024-06-03-WEEKLY.dump
+   buh-2024-06-10-WEEKLY.dump
+   buh-2024-06-17-WEEKLY.dump
+   buh-2024-06-24-WEEKLY.dump
+   buh-2024-07-01-WEEKLY.dump
+   buh-2024-07-08-WEEKLY.dump
+   buh-2024-07-15-WEEKLY.dump
+   buh-2024-07-22-WEEKLY.dump
+   buh-2024-07-25-DAILY.dump
+   buh-2024-07-26-DAILY.dump
+   buh-2024-07-27-DAILY.dump
+   buh-2024-07-28-DAILY.dump
+   buh-2024-07-29-WEEKLY.dump
+   buh-2024-07-30-DAILY.dump
+   buh-2024-07-31-DAILY.dump
+   buh-2024-08-01-DAILY.dump
+Количество ежедневных бэкапов базы данных buh = 7
+Удаляем лишние ежедневные бэкапы для базы данных buh
+24-08-01 23:30:08 Delete backup s3://****************************/buh-2024-07-25-DAILY.dump...
+delete: 's3://****************************/buh-2024-07-25-DAILY.dump'
+24-08-01 23:30:09 Backup buh-2024-07-25-DAILY.dump was deleted
+Количество еженедельных бэкапов базы данных buh = 10
+Количество ежемесячных бэкапов базы данных buh = 7
+----- Database: buh2_db
+   buh2_db-2023-06-01-MONTHLY.dump
+   buh2_db-2023-07-01-MONTHLY.dump
+   buh2_db-2023-08-01-MONTHLY.dump
+   buh2_db-2023-09-01-MONTHLY.dump
+   buh2_db-2023-10-01-MONTHLY.dump
+   buh2_db-2023-11-01-MONTHLY.dump
+   buh2_db-2023-12-01-MONTHLY.dump
+   buh2_db-2024-05-27-WEEKLY.dump
+   buh2_db-2024-06-03-WEEKLY.dump
+   buh2_db-2024-06-10-WEEKLY.dump
+   buh2_db-2024-06-17-WEEKLY.dump
+   buh2_db-2024-06-24-WEEKLY.dump
+   buh2_db-2024-07-01-WEEKLY.dump
+   buh2_db-2024-07-08-WEEKLY.dump
+   buh2_db-2024-07-15-WEEKLY.dump
+   buh2_db-2024-07-22-WEEKLY.dump
+   buh2_db-2024-07-25-DAILY.dump
+   buh2_db-2024-07-26-DAILY.dump
+   buh2_db-2024-07-27-DAILY.dump
+   buh2_db-2024-07-28-DAILY.dump
+   buh2_db-2024-07-29-WEEKLY.dump
+   buh2_db-2024-07-30-DAILY.dump
+   buh2_db-2024-07-31-DAILY.dump
+   buh2_db-2024-08-01-DAILY.dump
+Количество ежедневных бэкапов базы данных buh2_db = 7
+Удаляем лишние ежедневные бэкапы для базы данных buh2_db
+24-08-01 23:30:10 Delete backup s3://****************************/buh2_db-2024-07-25-DAILY.dump...
+delete: 's3://****************************/buh2_db-2024-07-25-DAILY.dump'
+24-08-01 23:30:13 Backup buh2_db-2024-07-25-DAILY.dump was deleted
+Количество еженедельных бэкапов базы данных buh2_db = 10
+Количество ежемесячных бэкапов базы данных buh2_db = 7
+----- Database: unf_db
+   unf_db-2023-06-01-MONTHLY.dump
+   unf_db-2023-07-01-MONTHLY.dump
+   unf_db-2023-08-01-MONTHLY.dump
+   unf_db-2023-09-01-MONTHLY.dump
+   unf_db-2023-10-01-MONTHLY.dump
+   unf_db-2023-11-01-MONTHLY.dump
+   unf_db-2023-12-01-MONTHLY.dump
+   unf_db-2024-05-27-WEEKLY.dump
+   unf_db-2024-06-03-WEEKLY.dump
+   unf_db-2024-06-10-WEEKLY.dump
+   unf_db-2024-06-17-WEEKLY.dump
+   unf_db-2024-06-24-WEEKLY.dump
+   unf_db-2024-07-01-WEEKLY.dump
+   unf_db-2024-07-08-WEEKLY.dump
+   unf_db-2024-07-15-WEEKLY.dump
+   unf_db-2024-07-22-WEEKLY.dump
+   unf_db-2024-07-25-DAILY.dump
+   unf_db-2024-07-26-DAILY.dump
+   unf_db-2024-07-27-DAILY.dump
+   unf_db-2024-07-28-DAILY.dump
+   unf_db-2024-07-29-WEEKLY.dump
+   unf_db-2024-07-30-DAILY.dump
+   unf_db-2024-07-31-DAILY.dump
+   unf_db-2024-08-01-DAILY.dump
+Количество ежедневных бэкапов базы данных unf_db = 7
+Удаляем лишние ежедневные бэкапы для базы данных unf_db
+24-08-01 23:30:15 Delete backup s3://****************************/unf_db-2024-07-25-DAILY.dump...
+delete: 's3://****************************/unf_db-2024-07-25-DAILY.dump'
+24-08-01 23:30:16 Backup unf_db-2024-07-25-DAILY.dump was deleted
+Количество еженедельных бэкапов базы данных unf_db = 10
+Количество ежемесячных бэкапов базы данных unf_db = 7
+----- Database: zup
+   zup-2023-06-01-MONTHLY.dump
+   zup-2023-07-01-MONTHLY.dump
+   zup-2023-08-01-MONTHLY.dump
+   zup-2023-09-01-MONTHLY.dump
+   zup-2023-10-01-MONTHLY.dump
+   zup-2023-11-01-MONTHLY.dump
+   zup-2023-12-01-MONTHLY.dump
+   zup-2024-05-27-WEEKLY.dump
+   zup-2024-06-03-WEEKLY.dump
+   zup-2024-06-10-WEEKLY.dump
+   zup-2024-06-17-WEEKLY.dump
+   zup-2024-06-24-WEEKLY.dump
+   zup-2024-07-01-WEEKLY.dump
+   zup-2024-07-08-WEEKLY.dump
+   zup-2024-07-15-WEEKLY.dump
+   zup-2024-07-22-WEEKLY.dump
+   zup-2024-07-25-DAILY.dump
+   zup-2024-07-26-DAILY.dump
+   zup-2024-07-27-DAILY.dump
+   zup-2024-07-28-DAILY.dump
+   zup-2024-07-29-WEEKLY.dump
+   zup-2024-07-30-DAILY.dump
+   zup-2024-07-31-DAILY.dump
+   zup-2024-08-01-DAILY.dump
+Количество ежедневных бэкапов базы данных zup = 7
+Удаляем лишние ежедневные бэкапы для базы данных zup
+24-08-01 23:30:17 Delete backup s3://****************************/zup-2024-07-25-DAILY.dump...
+delete: 's3://****************************/zup-2024-07-25-DAILY.dump'
+24-08-01 23:30:18 Backup zup-2024-07-25-DAILY.dump was deleted
+Количество еженедельных бэкапов базы данных zup = 10
+Количество ежемесячных бэкапов базы данных zup = 7
+----- Database: zup3
+   zup3-2023-06-01-MONTHLY.dump
+   zup3-2023-07-01-MONTHLY.dump
+   zup3-2023-08-01-MONTHLY.dump
+   zup3-2023-09-01-MONTHLY.dump
+   zup3-2023-10-01-MONTHLY.dump
+   zup3-2023-11-01-MONTHLY.dump
+   zup3-2023-12-01-MONTHLY.dump
+   zup3-2024-05-27-WEEKLY.dump
+   zup3-2024-06-03-WEEKLY.dump
+   zup3-2024-06-10-WEEKLY.dump
+   zup3-2024-06-17-WEEKLY.dump
+   zup3-2024-06-24-WEEKLY.dump
+   zup3-2024-07-01-WEEKLY.dump
+   zup3-2024-07-08-WEEKLY.dump
+   zup3-2024-07-15-WEEKLY.dump
+   zup3-2024-07-22-WEEKLY.dump
+   zup3-2024-07-25-DAILY.dump
+   zup3-2024-07-26-DAILY.dump
+   zup3-2024-07-27-DAILY.dump
+   zup3-2024-07-28-DAILY.dump
+   zup3-2024-07-29-WEEKLY.dump
+   zup3-2024-07-30-DAILY.dump
+   zup3-2024-07-31-DAILY.dump
+   zup3-2024-08-01-DAILY.dump
+Количество ежедневных бэкапов базы данных zup3 = 7
+Удаляем лишние ежедневные бэкапы для базы данных zup3
+24-08-01 23:30:20 Delete backup s3://****************************/zup3-2024-07-25-DAILY.dump...
+delete: 's3://****************************/zup3-2024-07-25-DAILY.dump'
+24-08-01 23:30:21 Backup zup3-2024-07-25-DAILY.dump was deleted
+Количество еженедельных бэкапов базы данных zup3 = 10
+Количество ежемесячных бэкапов базы данных zup3 = 7
